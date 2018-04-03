@@ -2,7 +2,7 @@
 A dictionary that maps a file extension to its type.
 '''
 
-file_type = {
+FILE_TYPES = {
     "!BT": "Misc",
     "!QB": "Misc",
     "!SYNC": "Misc",
