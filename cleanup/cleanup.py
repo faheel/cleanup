@@ -1,14 +1,15 @@
 #! /usr/bin/env python3
 
 '''
-Organise files in a directory into subdirectories.
+Organise files in a directory into subdirectories based on their extensions.
 
 Usage:
   cleanup [-d | -s] [-r] <dir>
   cleanup -h
 
 Options:
-  -d, --dry-run     Do not make any changes, just display them.
+  -d, --dry-run     Just display the changes that would be made, without
+                    actually doing anything.
   -s, --silent      Do not display information while performing operations.
   -r, --revert      Revert previous cleanup of the directory.
   -h, --help        Display this help text.
