@@ -1,29 +1,47 @@
-from setuptools import setup
+from setuptools import setup, find_packages
+from codecs import open
+from os import path
 
+here = path.abspath(path.dirname(__file__))
+
+# Get the long description from README.md
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
 setup(
     name='cleanup',
-    packages=['cleanup'],
     version='1.0.0',
     description='A simple command line utility that organises files in a '
                 'directory into subdirectories.',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    url='https://github.com/faheel/cleanup',
     author='Faheel Ahmad',
     author_email='faheel@live.in',
-    url='https://github.com/faheel/cleanup',
-    download_url='https://github.com/faheel/cleanup/archive/v1.0.0.tar.gz',
-    keywords=['cleanup', 'file-organiser', 'file-organisation',
-              'file-management', 'cli', 'command-line', 'command-line-tool'],
-    include_package_data=True,
-    license='MIT',
     classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python',
+        
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy'
     ],
+    keywords='cleanup file-organiser file-organisation file-management colored docopt',
+    packages=find_packages(exclude=['test']),
+    install_requires=['docopt', 'colored'],
+    extras_require={
+        'dev': ['pylint'],
+    },
+    entry_points={
+        'console_scripts': [
+            'cleanup=cleanup.cleanup:main',
+        ],
+    },
+    project_urls={
+        'Bug Reports': 'https://github.com/faheel/cleanup/issues',
+        'Source': 'https://github.com/faheel/cleanup',
+    },
 )
