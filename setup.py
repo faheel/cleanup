@@ -4,13 +4,15 @@ from setuptools import setup
 setup(
     name='cleanup',
     packages=['cleanup'],
-    version='0.0.0',
-    description='A simple command line utility that organises files in a directory into subdirectories.',
+    version='1.0.0',
+    description='A simple command line utility that organises files in a '
+                'directory into subdirectories.',
     author='Faheel Ahmad',
     author_email='faheel@live.in',
     url='https://github.com/faheel/cleanup',
-    download_url='https://github.com/faheel/cleanup/archive/0.1.0.tar.gz',
-    keywords=[''],
+    download_url='https://github.com/faheel/cleanup/archive/v1.0.0.tar.gz',
+    keywords=['cleanup', 'file-organiser', 'file-organisation',
+              'file-management', 'cli', 'command-line', 'command-line-tool'],
     include_package_data=True,
     license='MIT',
     classifiers=[
