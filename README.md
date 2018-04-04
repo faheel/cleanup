@@ -1,5 +1,9 @@
 # CleanUp
 
+[![PyPI](https://img.shields.io/pypi/v/cleanup.svg?style=for-the-badge)](https://pypi.org/project/cleanup/)
+![Python versions](https://img.shields.io/pypi/pyversions/cleanup.svg?style=for-the-badge)
+[![License](https://img.shields.io/github/license/faheel/cleanup.svg?style=for-the-badge)][license-link]
+
 A simple command line utility that organises files in a directory into subdirectories based on the files' extensions.
 
 ## Development setup
@@ -20,7 +24,7 @@ A simple command line utility that organises files in a directory into subdirect
 
 ## Usage
 
-![Usage](images/usage.png)
+![Usage](https://i.imgur.com/iATfu3Y.png)
 
 When run without any option, it organises the files in the specified directory into subdirectories based on the files' extensions.
 
@@ -62,4 +66,7 @@ When run without any option, it organises the files in the specified directory i
 
 ## License
 
-This project is licensed under the terms of the [MIT license](LICENSE).
+This project is licensed under the terms of the [MIT license][license-link].
+
+
+[license-link]: https://github.com/faheel/cleanup/blob/master/LICENSE
