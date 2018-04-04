@@ -22,7 +22,7 @@ import os
 from colored import stylize, fg, attr
 from docopt import docopt
 
-from file_types import FILE_TYPES
+from .file_types import FILE_TYPES
 
 REVERT_INFO_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)),
                                 'revert_info.json')
@@ -95,7 +95,7 @@ def print_complete(operation):
     print(operation + ' ' + stylize('complete', fg('green')) + '!')
 
 
-def revert(dir_path):
+def revert(dir_path, dry_run, silent):
     abs_dir = os.path.abspath(dir_path)
     try:
         revert_info = read_revert_info()
@@ -137,7 +137,7 @@ def revert(dir_path):
         save_revert_info(revert_info)
 
 
-if __name__ == '__main__':
+def main():
     arguments = docopt(__doc__)
     dir_path = arguments['<dir>']   # path to the directory to be cleaned
     silent = arguments['--silent']
@@ -145,7 +145,7 @@ if __name__ == '__main__':
     to_revert = arguments['--revert']
 
     if to_revert:
-        revert(dir_path)
+        revert(dir_path, dry_run, silent)
     else:
         root_dir, dir_list, file_list = next(os.walk(dir_path), (None, [], []))
         if not root_dir:
@@ -187,3 +187,7 @@ if __name__ == '__main__':
                 revert_info = {}
             revert_info[os.path.abspath(root_dir)] = revert_list
             save_revert_info(revert_info)
+
+
+if __name__ == '__main__':
+    main()
