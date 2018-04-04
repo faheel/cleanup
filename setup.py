@@ -10,7 +10,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='cleanup',
-    version='1.0.0',
+    version='1.0.1',
     description='A simple command line utility that organises files in a '
                 'directory into subdirectories.',
     long_description=long_description,
@@ -18,6 +18,7 @@ setup(
     url='https://github.com/faheel/cleanup',
     author='Faheel Ahmad',
     author_email='faheel@live.in',
+    license='MIT',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         
