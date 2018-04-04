@@ -4,12 +4,12 @@
 Organise files in a directory into subdirectories.
 
 Usage:
-  cleanup [-d | -v] [-r] <dir>
+  cleanup [-d | -s] [-r] <dir>
   cleanup -h
 
 Options:
   -d, --dry-run     Do not make any changes, just display them.
-  -v, --verbose     Display information while performing operations.
+  -s, --silent      Do not display information while performing operations.
   -r, --revert      Revert previous cleanup of the directory.
   -h, --help        Display this help text.
 '''
@@ -110,7 +110,7 @@ def revert(dir_path):
     
     if dry_run:
         print_cleaning('When reverting cleanup of', abs_dir)
-    elif verbose:
+    elif not silent:
         print_cleaning('Reverting cleanup of', abs_dir)
     for file_info in file_info_list:
         file_type = file_info['type']
@@ -125,12 +125,12 @@ def revert(dir_path):
                     print_file_error('Will fail to move back', file, file_type, dry_run=True)
             else:
                 os.renames(prev_path, new_path)
-                if verbose:
+                if not silent:
                     print_move('Moved back', file, file_type, revert=True)
         except:
             print_file_error('Could not find', file, file_type)
     if not dry_run:
-        if verbose:
+        if not silent:
             print_complete('Revert')
         revert_info.pop(abs_dir)
         save_revert_info(revert_info)
@@ -139,7 +139,7 @@ def revert(dir_path):
 if __name__ == '__main__':
     arguments = docopt(__doc__)
     dir_path = arguments['<dir>']   # path to the directory to be cleaned
-    verbose = arguments['--verbose']
+    silent = arguments['--silent']
     dry_run = arguments['--dry-run']
     to_revert = arguments['--revert']
 
@@ -157,7 +157,7 @@ if __name__ == '__main__':
             exit()
         if dry_run:
             print_cleaning('When cleaning up', abs_path)
-        elif verbose:
+        elif not silent:
             print_cleaning('Cleaning up', abs_path)
         
         revert_list = []
@@ -175,10 +175,10 @@ if __name__ == '__main__':
                         'type': file_type
                     })
                     os.renames(original_name, new_name)
-                    if verbose:
+                    if not silent:
                         print_move('Moved', file, file_type)
         if not dry_run:
-            if verbose:
+            if not silent:
                 print_complete('Cleanup')
             if os.path.exists(REVERT_INFO_FILE):
                 revert_info = read_revert_info()
