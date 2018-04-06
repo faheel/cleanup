@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 docopt = "*"
 pylint = "*"
-colored = "*"
+huepy = "*"
 
 [dev-packages]
 
