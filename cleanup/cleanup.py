@@ -112,7 +112,7 @@ def revert(abs_path, dry_run=False, silent=False):
     except:
         # revert info file doesn't exist, so cannot perform a revert
         print('Nothing to do.')
-        exit()
+        return
 
     if dry_run:
         print_cleaning('When reverting cleanup of', abs_path)
@@ -150,11 +150,11 @@ def cleanup(abs_path, dry_run=False, silent=False):
     root_dir, dir_list, file_list = next(os.walk(abs_path), (None, [], []))
     if not root_dir:
         print_dir_error('The specified directory does not exist', abs_path)
-        exit()
+        return
 
     if len(file_list) == 0:
         print('Nothing to do.')
-        exit()
+        return
     if dry_run:
         print_cleaning('When cleaning up', abs_path)
     elif not silent:
