@@ -102,3 +102,6 @@ ENV/
 
 # Text editors' settings
 .vscode
+
+# Revert info file
+revert_info.json
