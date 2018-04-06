@@ -1,12 +1,10 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "fc99e2b9e954c04b5ff9aaa7b84406d912c50d27ade4909f9edda19ec42529da"
+            "sha256": "c0e4d6510c6616d22db0831f583a8f279583586a4c28bbf7bd8dc5c575d5c5d9"
         },
         "pipfile-spec": 6,
-        "requires": {
-            "python_version": "3.6"
-        },
+        "requires": {},
         "sources": [
             {
                 "name": "pypi",
@@ -16,13 +14,6 @@
         ]
     },
     "default": {
-        "astroid": {
-            "hashes": [
-                "sha256:35cfae47aac19c7b407b7095410e895e836f2285ccf1220336afba744cc4c5f2",
-                "sha256:38186e481b65877fd8b1f9acc33e922109e983eb7b6e487bd4c71002134ad331"
-            ],
-            "version": "==1.6.3"
-        },
         "docopt": {
             "hashes": [
                 "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"
@@ -36,6 +27,15 @@
             ],
             "index": "pypi",
             "version": "==0.9.8.1"
+        }
+    },
+    "develop": {
+        "astroid": {
+            "hashes": [
+                "sha256:35cfae47aac19c7b407b7095410e895e836f2285ccf1220336afba744cc4c5f2",
+                "sha256:38186e481b65877fd8b1f9acc33e922109e983eb7b6e487bd4c71002134ad331"
+            ],
+            "version": "==1.6.3"
         },
         "isort": {
             "hashes": [
@@ -107,6 +107,5 @@
             ],
             "version": "==1.10.11"
         }
-    },
-    "develop": {}
+    }
 }

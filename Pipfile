@@ -5,10 +5,7 @@ name = "pypi"
 
 [packages]
 docopt = "*"
-pylint = "*"
 huepy = "*"
 
 [dev-packages]
-
-[requires]
-python_version = "3.6"
+pylint = "*"
