@@ -10,7 +10,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='cleanup',
-    version='1.0.1',
+    version='1.0.2',
     description='A simple command line utility that organises files in a '
                 'directory into subdirectories.',
     long_description=long_description,
@@ -25,14 +25,13 @@ setup(
         'License :: OSI Approved :: MIT License',
         
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
-    keywords='cleanup file-organiser file-organisation file-management colored docopt',
+    keywords='cleanup file-organiser file-organisation file-management hue docopt',
     packages=find_packages(exclude=['test']),
-    install_requires=['docopt', 'colored'],
+    install_requires=['docopt', 'huepy'],
     extras_require={
         'dev': ['pylint'],
     },
