@@ -1,26 +1,11 @@
 # CleanUp
 
-[![PyPI](https://img.shields.io/pypi/v/cleanup.svg?style=for-the-badge)](https://pypi.org/project/cleanup/)
-![Python versions](https://img.shields.io/pypi/pyversions/cleanup.svg?style=for-the-badge)
-[![License](https://img.shields.io/github/license/faheel/cleanup.svg?style=for-the-badge)][license-link]
+[![Travis][travis-shield]][travis-link]
+[![PyPI][pypi-shield]][pypi-link]
+[![Python][python-shield]][pypi-link]
+[![License][license-shield]][license-link]
 
 A simple command line utility that organises files in a directory into subdirectories based on the files' extensions.
-
-## Development setup
-
-1. Clone the repo and `cd` into it.
-
-2. Set up a Python 3 virtual environment using [pipenv](https://docs.pipenv.org):
-   ```bash
-   pipenv --three   # create Python 3 virtual environment
-   pipenv install   # install dependencies
-   pipenv shell     # activate virtual environment shell
-   ```
-
-3. The cleanup script can now be run from the `cleanup` directory:
-   ```bash
-   ./cleanup/cleanup.py -h
-   ```
 
 ## Usage
 
@@ -64,9 +49,40 @@ When run without any option, it organises the files in the specified directory i
   cleanup -h
   ```
 
+## Development
+
+### Setup
+
+1. Clone the repo and `cd` into it.
+
+2. Set up a Python 3 virtual environment using [pipenv](https://docs.pipenv.org):
+   ```bash
+   pipenv --three         # create Python 3 virtual environment
+   pipenv install --dev   # install all dependencies
+   pipenv shell           # activate virtual environment shell
+   ```
+
+3. The cleanup script can now be run from the `cleanup` directory:
+   ```bash
+   ./cleanup/cleanup.py -h
+   ```
+
+### Test
+
+Make sure you're in the root directory of the project. You can then run the test using:
+```bash
+python3 -m tests.test
+```
+
 ## License
 
 This project is licensed under the terms of the [MIT license][license-link].
 
 
+[travis-shield]: https://img.shields.io/travis/faheel/cleanup.svg?style=for-the-badge
+[travis-link]: https://travis-ci.org/faheel/cleanup
+[pypi-shield]: https://img.shields.io/pypi/v/cleanup.svg?style=for-the-badge
+[pypi-link]: https://pypi.org/project/cleanup
+[python-shield]: https://img.shields.io/pypi/pyversions/cleanup.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/faheel/cleanup.svg?style=for-the-badge
 [license-link]: https://github.com/faheel/cleanup/blob/master/LICENSE
