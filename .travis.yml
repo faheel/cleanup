@@ -1,0 +1,13 @@
+sudo: false
+language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7-dev"
+install:
+  - pip install --upgrade pipenv
+  - pipenv --three
+  - pipenv install --dev
+script:
+  - python3 -m tests.test
