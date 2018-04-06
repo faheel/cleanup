@@ -10,7 +10,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='cleanup',
-    version='1.0.2',
+    version='1.0.3',
     description='A simple command line utility that organises files in a '
                 'directory into subdirectories.',
     long_description=long_description,
