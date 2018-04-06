@@ -22,7 +22,7 @@ import os
 from docopt import docopt
 from huepy import *
 
-from file_types import FILE_TYPES
+from .file_types import FILE_TYPES
 
 REVERT_INFO_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)),
                                 'revert_info.json')
