@@ -62,9 +62,9 @@ When run without any option, it organises the files in the specified directory i
    pipenv shell           # activate virtual environment shell
    ```
 
-3. The cleanup script can now be run from the `cleanup` directory:
+3. The cleanup script can now be run from the root directory of the project:
    ```bash
-   ./cleanup/cleanup.py -h
+   python3 -m cleanup.cleanup -h
    ```
 
 ### Test
