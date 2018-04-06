@@ -19,16 +19,19 @@ import io
 import json
 import os
 
-from colored import stylize, fg, attr
 from docopt import docopt
+from huepy import *
 
-from .file_types import FILE_TYPES
+from file_types import FILE_TYPES
 
 REVERT_INFO_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)),
                                 'revert_info.json')
 
 
 def get_longest_extension(filename):
+    '''
+    Returns the longest known extension from the given filename
+    '''
     parts = filename.split('.')
     if len(parts) > 3:
         # possible triple extension (.pkg.tar.xz)
@@ -60,8 +63,7 @@ def read_revert_info():
 
 
 def print_cleaning(action, dir):
-    print(action + ' ' + stylize(dir, fg('light_blue') + attr('bold'))
-          + ':')
+    print(action + ' ' + bold(lightblue(dir)) + ':')
 
 
 def print_move(move_action, file, file_type, revert=False, dry_run=False):
@@ -70,11 +72,11 @@ def print_move(move_action, file, file_type, revert=False, dry_run=False):
     else:
         preposition = 'under'
     if dry_run:
-        move_action = stylize(move_action, fg('yellow'))
+        move_action = yellow(move_action)
     else:
-        move_action = stylize(move_action, fg('green'))
-    print(move_action + ' ' + stylize(file, attr('bold')) + ' ' + preposition + ' '
-          + stylize(file_type, attr('bold')))
+        move_action = lightgreen(move_action)
+    print(move_action + ' ' + bold(file) + ' ' + preposition + ' '
+          + bold(file_type))
 
 
 def print_file_error(error, file, file_type, dry_run=False):
@@ -82,25 +84,28 @@ def print_file_error(error, file, file_type, dry_run=False):
         preposition = 'from'
     else:
         preposition = 'under'
-    print(stylize(error, fg('red')) + ' ' + stylize(file, attr('bold')) + ' '
-          + preposition + ' ' + stylize(file_type, attr('bold')))
+    print(lightred(error) + ' ' + bold(file) + ' ' + preposition + ' '
+          + bold(file_type))
 
 
 def print_dir_error(error, dir):
-    print(stylize(error, fg('red')) + ': ' + stylize(dir, fg('light_blue')
-                                                          + attr('bold')))
+    print(lightred(error) + ': ' + bold(lightblue(dir)))
 
 
 def print_complete(operation):
-    print(operation + ' ' + stylize('complete', fg('green')) + '!')
+    print(operation + ' ' + lightgreen('complete') + '!')
 
 
-def revert(dir_path, dry_run, silent):
-    abs_dir = os.path.abspath(dir_path)
+def revert(abs_path, dry_run=False, silent=False):
+    '''
+    Given the absolute path to a directory, it reverts the cleanup operation
+    performed on it and moves back files to their original location, deleting
+    empty folders that remain after files have been moved from them.
+    '''
     try:
         revert_info = read_revert_info()
-        if revert_info.get(abs_dir):
-            file_info_list = revert_info[abs_dir]
+        if revert_info.get(abs_path):
+            file_info_list = revert_info[abs_path]
         else:
             # revert info about the specified directory is not available
             raise Exception
@@ -108,16 +113,16 @@ def revert(dir_path, dry_run, silent):
         # revert info file doesn't exist, so cannot perform a revert
         print('Nothing to do.')
         exit()
-    
+
     if dry_run:
-        print_cleaning('When reverting cleanup of', abs_dir)
+        print_cleaning('When reverting cleanup of', abs_path)
     elif not silent:
-        print_cleaning('Reverting cleanup of', abs_dir)
+        print_cleaning('Reverting cleanup of', abs_path)
     for file_info in file_info_list:
         file_type = file_info['type']
         file = file_info['name']
-        prev_path = os.path.join(abs_dir, file_type, file)
-        new_path = os.path.join(abs_dir, file)
+        prev_path = os.path.join(abs_path, file_type, file)
+        new_path = os.path.join(abs_path, file)
         try:
             if dry_run:
                 if os.path.exists(prev_path):
@@ -133,7 +138,53 @@ def revert(dir_path, dry_run, silent):
     if not dry_run:
         if not silent:
             print_complete('Revert')
-        revert_info.pop(abs_dir)
+        revert_info.pop(abs_path)
+        save_revert_info(revert_info)
+
+
+def cleanup(abs_path, dry_run=False, silent=False):
+    '''
+    Given the absolute path to a directory, it organise files in that directory
+    into subdirectories based on the files' extensions.
+    '''
+    root_dir, dir_list, file_list = next(os.walk(abs_path), (None, [], []))
+    if not root_dir:
+        print_dir_error('The specified directory does not exist', abs_path)
+        exit()
+
+    if len(file_list) == 0:
+        print('Nothing to do.')
+        exit()
+    if dry_run:
+        print_cleaning('When cleaning up', abs_path)
+    elif not silent:
+        print_cleaning('Cleaning up', abs_path)
+
+    revert_list = []
+    for file in file_list:
+        extension = get_longest_extension(file)
+        if extension:
+            original_name = os.path.join(root_dir, file)
+            file_type = FILE_TYPES[extension]
+            new_name = os.path.join(root_dir, file_type, file)
+            if dry_run:
+                print_move('Will move', file, file_type, dry_run=True)
+            else:
+                revert_list.append({
+                    'name': file,
+                    'type': file_type
+                })
+                os.renames(original_name, new_name)
+                if not silent:
+                    print_move('Moved', file, file_type)
+    if not dry_run:
+        if not silent:
+            print_complete('Cleanup')
+        if os.path.exists(REVERT_INFO_FILE):
+            revert_info = read_revert_info()
+        else:
+            revert_info = {}
+        revert_info[os.path.abspath(root_dir)] = revert_list
         save_revert_info(revert_info)
 
 
@@ -144,49 +195,11 @@ def main():
     dry_run = arguments['--dry-run']
     to_revert = arguments['--revert']
 
+    abs_path = os.path.abspath(dir_path)
     if to_revert:
-        revert(dir_path, dry_run, silent)
+        revert(abs_path, dry_run, silent)
     else:
-        root_dir, dir_list, file_list = next(os.walk(dir_path), (None, [], []))
-        if not root_dir:
-            print_dir_error('The specified directory does not exist',
-                            os.path.abspath(dir_path))
-            exit()
-        abs_path = os.path.abspath(root_dir)
-        if len(file_list) == 0:
-            print('Nothing to do.')
-            exit()
-        if dry_run:
-            print_cleaning('When cleaning up', abs_path)
-        elif not silent:
-            print_cleaning('Cleaning up', abs_path)
-        
-        revert_list = []
-        for file in file_list:
-            extension = get_longest_extension(file)
-            if extension:
-                original_name = os.path.join(root_dir, file)
-                file_type = FILE_TYPES[extension]
-                new_name = os.path.join(root_dir, file_type, file)
-                if dry_run:
-                    print_move('Will move', file, file_type, dry_run=True)
-                else:
-                    revert_list.append({
-                        'name': file,
-                        'type': file_type
-                    })
-                    os.renames(original_name, new_name)
-                    if not silent:
-                        print_move('Moved', file, file_type)
-        if not dry_run:
-            if not silent:
-                print_complete('Cleanup')
-            if os.path.exists(REVERT_INFO_FILE):
-                revert_info = read_revert_info()
-            else:
-                revert_info = {}
-            revert_info[os.path.abspath(root_dir)] = revert_list
-            save_revert_info(revert_info)
+        cleanup(abs_path, dry_run, silent)
 
 
 if __name__ == '__main__':
