@@ -1,8 +1,7 @@
 # CleanUp
 
-[![Travis][travis-shield]][travis-link]
+[![GitHub Actions][gh-actions-shield]][gh-actions-link]
 [![PyPI][pypi-shield]][pypi-link]
-[![Python][python-shield]][pypi-link]
 [![License][license-shield]][license-link]
 
 A simple command line utility that organises files in a directory into subdirectories based on the files' extensions.
@@ -79,10 +78,9 @@ python3 -m tests.test
 This project is licensed under the terms of the [MIT license][license-link].
 
 
-[travis-shield]: https://img.shields.io/travis/faheel/cleanup.svg?style=for-the-badge
-[travis-link]: https://travis-ci.org/faheel/cleanup
+[gh-actions-shield]: https://img.shields.io/github/actions/workflow/status/faheel/cleanup/ci.yml?style=for-the-badge&logo=github
+[gh-actions-link]: https://github.com/faheel/cleanup/actions/workflows/ci.yml
 [pypi-shield]: https://img.shields.io/pypi/v/cleanup.svg?style=for-the-badge
 [pypi-link]: https://pypi.org/project/cleanup
-[python-shield]: https://img.shields.io/pypi/pyversions/cleanup.svg?style=for-the-badge
 [license-shield]: https://img.shields.io/github/license/faheel/cleanup.svg?style=for-the-badge
 [license-link]: https://github.com/faheel/cleanup/blob/master/LICENSE
