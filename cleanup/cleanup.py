@@ -160,6 +160,14 @@ def cleanup(abs_path, dry_run=False, silent=False):
     elif not silent:
         print_cleaning('Cleaning up', abs_path)
 
+    if os.path.exists(REVERT_INFO_FILE):
+        try:
+            revert_info = read_revert_info()
+        except (OSError, ValueError):
+            revert_info = {}
+    else:
+        revert_info = {}
+
     revert_list = []
     for file in file_list:
         extension = get_longest_extension(file)
@@ -180,10 +188,6 @@ def cleanup(abs_path, dry_run=False, silent=False):
     if not dry_run:
         if not silent:
             print_complete('Cleanup')
-        if os.path.exists(REVERT_INFO_FILE):
-            revert_info = read_revert_info()
-        else:
-            revert_info = {}
         revert_info[os.path.abspath(root_dir)] = revert_list
         save_revert_info(revert_info)
 
